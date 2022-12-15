@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .memberLogin {
+            width: 300px;
+            margin: 300px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="memberLogin">
+    <h2>로그인</h2>
+    <form action="/member/login" method="post">
+        <input type="text" id="memberEmail" class="form-control" placeholder="이메일">
+        <input type="text" id="memberPassword" class="form-control" placeholder="비밀번호">
+        <input type="button" value="로그인" class="form-control">
+    </form>
+</div>
+</body>
+</html>

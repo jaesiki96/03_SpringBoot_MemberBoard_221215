@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .memberSave {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="memberSave">
+    <h2>회원가입</h2>
+    <form action="/member/save" method="post" enctype="multipart/form-data">
+        <input type="text" id="memberEmail" name="memberEmail" class="form-control" onblur="emailDuplicateCheck()" placeholder="이메일">
+        <span id="email-dup-check"></span>
+        <input type="text" id="memberPassword" name="memberPassword" class="form-control" placeholder="비밀번호">
+        <input type="text" id="memberName" name="memberName" class="form-control" placeholder="이름">
+        <input type="text" id="memberMobile" name="memberMobile" class="form-control" placeholder="전화번호">
+        <input type="file" id="memberProfile" name="memberProfile" class="form-control">
+        <input type="submit" value="회원가입" class="form-control">
+    </form>
+</div>
+</body>
+<script th:inline="javascript">
+    const emailDuplicateCheck = () => {
+        const email = document.getElementById("memberEmail").value;
+        const checkResult = document.getElementById("email-dup-check");
+        axios({
+            method: "post",
+            url: "/member/dup-check",
+            params: {
+                inputEmail: email
+            }
+        }).then(res => {
+            checkResult.innerHTML = "사용 가능";
+            checkResult.style.color = "green";
+        }).catch(res => {
+            checkResult.innerHTML = "사용 불가";
+            checkResult.style.color = "red";
+        })
+    }
+</script>
+</html>
