@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>글작성</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-
+<div class="boardSave">
+    <form action="/board/save" method="post" enctype="multipart/form-data">
+        <input type="text" id="boardTitle" name="boardTitle" class="form-control" placeholder="글 제목">
+        <input type="text" id="boardWriter" name="boardWriter" class="form-control" th:value="${member.memberEmail}" readonly>
+        <textarea id="boardContents" name="boardContents" cols="30" rows="10" class="form-control" placeholder="내용을 입력하세요"></textarea>
+        <input type="file" id="boardFile" name="boardFile" class="form-control" multiple>
+        <input type="submit" value="글 작성">
+    </form>
+</div>
 </body>
 </html>

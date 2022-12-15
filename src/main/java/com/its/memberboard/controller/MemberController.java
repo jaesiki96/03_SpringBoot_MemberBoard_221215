@@ -1,12 +1,12 @@
 package com.its.memberboard.controller;
 
 import com.its.memberboard.dto.MemberDTO;
-import com.its.memberboard.service.BoardService;
 import com.its.memberboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -17,7 +17,6 @@ import java.io.IOException;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-    private final BoardService boardService;
 
     // 회원가입 페이지
     @GetMapping("/save")
@@ -29,7 +28,7 @@ public class MemberController {
     @PostMapping("/save")
     public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
         memberService.save(memberDTO);
-        return "index";
+        return "memberPages/memberLogin";
     }
 
     // 이메일 중복체크
@@ -59,6 +58,13 @@ public class MemberController {
         } else {
             return "memberPages/memberLogin";
         }
+    }
+
+    // 로그아웃 처리
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "index";
     }
 
 }
