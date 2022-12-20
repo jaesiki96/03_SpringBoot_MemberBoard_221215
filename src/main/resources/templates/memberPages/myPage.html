@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${session.loginEmail}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .myPage {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="myPage">
+    <h2>MyPage</h2>
+    <form action="/member/myPage" method="post" name="updateForm">
+        <table class="table table-hover">
+            <tr th:if="${member.fileAttached == 1}">
+                <td>
+                    <img th:src="@{|/upload/${member.storedFileName}}" alt="" width="200" height="200">
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="id" th:value="${member.id}">
+        <input type="text" id="memberEmail" name="memberEmail" class="form-control" th:value="${member.memberEmail}">
+        <input type="password" id="memberPassword" name="memberPassword" class="form-control" placeholder="비밀번호를 입력하세요">
+        <input type="text" id="memberName" name="memberName" class="form-control" th:value="${member.memberName}">
+        <input type="text" id="memberMobile" name="memberMobile" class="form-control" th:value="${member.memberMobile}">
+        <input type="button" value="수정" onclick="updateFn()" class="form-control">
+        <input type="button" value="탈퇴" onclick="deleteFn()" class="form-control">
+    </form>
+</div>
+</body>
+<script th:inline="javascript">
+    const updateFn = () => {
+        const pass = document.getElementById("memberPassword").value;
+        const passDB = [[${member.memberPassword}]];
+        if (pass == passDB) {
+            confirm("회원정보를 수정하시겠습니까?");
+            document.updateForm.submit();
+        } else {
+            alert("비밀번호를 확인해주세요.");
+        }
+    }
+
+    const deleteFn = (deleteId) => {
+        const pass = document.getElementById("memberPassword").value;
+        const passDB = [[${member.memberPassword}]];
+        axios({
+            method: "delete",
+            url: "/member/" + deleteId
+        }).then(res => {
+            if (pass == passDB) {
+                confirm("탈퇴하시겠습니까?")
+                location.href = "index";
+            } else {
+                alert("비밀번호가 일치하지 않습니다.")
+            }
+        }).catch(res => {
+            alert("삭제 실패");
+        })
+    }
+</script>
+</html>

@@ -32,10 +32,28 @@ public class MemberEntity extends BaseEntity {
     @Column
     private int fileAttached;
 
-    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MemberFileEntity> memberFileEntityList = new ArrayList<>();
 
-    // 글 저장 Entity
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST, orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
+    @PreRemove
+    private void preRemove() {
+        boardEntityList.forEach(board -> {
+            board.setMemberEntity(null);
+            board.setBoardWriter("탈퇴회원");
+        });
+        commentEntityList.forEach(comment -> {
+            comment.setMemberEntity(null);
+            comment.setCommentWriter("탈퇴회원");
+        });
+    }
+
+    // 맴버 저장 Entity
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
@@ -46,7 +64,7 @@ public class MemberEntity extends BaseEntity {
         return memberEntity;
     }
 
-    // 파일 저장 Entity
+    // 프로필 저장 Entity
     public static MemberEntity toSaveFileEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
@@ -56,6 +74,4 @@ public class MemberEntity extends BaseEntity {
         memberEntity.setFileAttached(1);
         return memberEntity;
     }
-
-
 }

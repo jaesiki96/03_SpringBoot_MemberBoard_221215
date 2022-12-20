@@ -18,8 +18,20 @@
     <form action="/member/login" method="post">
         <input type="text" id="memberEmail" name="memberEmail" class="form-control" placeholder="이메일">
         <input type="text" id="memberPassword" name="memberPassword" class="form-control" placeholder="비밀번호">
-        <input type="submit" value="로그인" class="form-control">
+        <input type="submit" value="로그인" onclick="loginCheck()" class="form-control">
     </form>
 </div>
 </body>
+<script th:inline="javascript">
+    const loginCheck = () => {
+        const email = document.getElementById("memberEmail").value;
+        const pass = document.getElementById("memberPassword").value;
+        const msg = [[${msg}]];
+        if (email == "") {
+            alert("이메일을 입력해주세요");
+        } else if (pass == "") {
+            alert("비밀번호를 입력해주세요");
+        }
+    }
+</script>
 </html>

@@ -14,12 +14,13 @@
     </style>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="memberSave">
     <h2>회원가입</h2>
     <form action="/member/save" method="post" enctype="multipart/form-data">
         <input type="text" id="memberEmail" name="memberEmail" class="form-control" onblur="emailDuplicateCheck()" placeholder="이메일">
         <span id="email-dup-check"></span>
-        <input type="text" id="memberPassword" name="memberPassword" class="form-control" placeholder="비밀번호">
+        <input type="password" id="memberPassword" name="memberPassword" class="form-control" placeholder="비밀번호">
         <input type="text" id="memberName" name="memberName" class="form-control" placeholder="이름">
         <input type="text" id="memberMobile" name="memberMobile" class="form-control" placeholder="전화번호">
         <input type="file" id="memberProfile" name="memberProfile" class="form-control">

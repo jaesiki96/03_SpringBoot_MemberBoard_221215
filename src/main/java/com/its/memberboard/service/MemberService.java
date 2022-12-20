@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -66,6 +69,41 @@ public class MemberService {
             } else {
                 return null;
             }
+        } else {
+            return null;
+        }
+    }
+
+    // 회원목록(관리자용)
+    public List<MemberDTO> findAll() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for (MemberEntity memberEntity : memberEntityList) {
+            memberDTOList.add(MemberDTO.toDTO(memberEntity));
+        }
+        return memberDTOList;
+    }
+
+    // 회원조회(관리자용)
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        if (optionalMemberEntity.isPresent()) {
+            return MemberDTO.toDTO(optionalMemberEntity.get());
+        } else {
+            return null;
+        }
+    }
+
+    // 회원삭제(관리자용)
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    // 마이페이지
+    public MemberDTO findByMemberEmail(String loginEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(loginEmail);
+        if (optionalMemberEntity.isPresent()) {
+            return MemberDTO.toDTO(optionalMemberEntity.get());
         } else {
             return null;
         }

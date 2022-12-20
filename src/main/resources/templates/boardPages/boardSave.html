@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <title>글작성</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .boardSave {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 <div class="boardSave">
     <form action="/board/save" method="post" enctype="multipart/form-data">
         <input type="text" id="boardTitle" name="boardTitle" class="form-control" placeholder="글 제목">
-        <input type="text" id="boardWriter" name="boardWriter" class="form-control" th:value="${member.memberEmail}" readonly>
+        <input type="text" id="boardWriter" name="boardWriter" class="form-control" th:value="${session.loginEmail}" readonly>
         <textarea id="boardContents" name="boardContents" cols="30" rows="10" class="form-control" placeholder="내용을 입력하세요"></textarea>
         <input type="file" id="boardFile" name="boardFile" class="form-control" multiple>
-        <input type="submit" value="글 작성">
+        <input type="submit" value="글 작성" class="form-control">
     </form>
 </div>
 </body>

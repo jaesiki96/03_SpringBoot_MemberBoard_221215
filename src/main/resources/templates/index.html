@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-<a href="/member/save">회원가입</a>
-<a href="/member/login">로그인</a>
-<a href="/board/paging">글목록</a>
+<th:block th:replace="commonPages/header :: header"></th:block>
 </body>
 </html>

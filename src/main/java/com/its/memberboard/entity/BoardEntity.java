@@ -52,6 +52,16 @@ public class BoardEntity extends BaseEntity {
         return boardEntity;
     }
 
+    public static BoardEntity toUpdateEntity(BoardDTO boardDTO) {
+        BoardEntity boardEntity = new BoardEntity();
+        boardEntity.setId(boardDTO.getId());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardContents(boardDTO.getBoardContents());
+        boardEntity.setBoardHits(boardDTO.getBoardHits());
+        return boardEntity;
+    }
+
     // 파일 저장 Entity
     public static BoardEntity toSaveFileEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
         BoardEntity boardEntity = new BoardEntity();

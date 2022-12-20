@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원목록(관리자용)</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid #bcbcbc;
+        }
+
+        table {
+            width: 600px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 200px;
+        }
+
+        tr, td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="memberList">
+    <table>
+        <tr>
+            <th>id</th>
+            <th>email</th>
+            <th>password</th>
+            <th>name</th>
+            <th>phone</th>
+            <th>삭제</th>
+        </tr>
+        <tr th:each="member: ${memberList}">
+            <td th:text="${member.id}"></td>
+            <td>
+                <a th:href="@{|/member/${member.id}|}" th:text="${member.memberEmail}"></a>
+            </td>
+            <td th:text="${member.memberPassword}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberMobile}"></td>
+            <td>
+                <button class="btn btn-primary" th:onclick="deleteMember([[${member.id}]])">삭제</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    const deleteMember = (deleteId) => {
+        axios({
+            method: "delete",
+            url: "/member/" + deleteId
+        }).then(res => {
+            alert("삭제 성공");
+            location.href = "/member/";
+        }).catch(res => {
+            alert("삭제 실패");
+        })
+    }
+</script>
+</html>

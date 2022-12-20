@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>글 수정</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/axios.min.js}"></script>
+    <style>
+        #update-form {
+            width: 500px;
+            margin: 50px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="container" id="update-form">
+    <form action="/board/update" method="post" name="updateForm">
+        <input type="hidden" name="id" th:value="${board.id}" class="form-control">
+        <label for="boardWriter">writer</label>
+        <input type="text" name="boardWriter" id="boardWriter" th:value="${board.boardWriter}" class="form-control"
+               readonly>
+        <label for="boardTitle">title</label>
+        <input type="text" name="boardTitle" id="boardTitle" th:value="${board.boardTitle}" class="form-control">
+        <label for="boardContents">content</label>
+        <textarea name="boardContents" id="boardContents" cols="30" rows="10" class="form-control"
+                  th:text="${board.boardContents}"></textarea>
+        <input type="hidden" id="boardHits" name="boardHits" th:value="${board.boardHits}">
+        <input type="button" value="수정" onclick="boardUpdateFn()" class="btn btn-primary">
+    </form>
+</div>
+</body>
+<script th:inline="javascript">
+    const boardUpdateFn = () => {
+        const id = document.querySelector('input[name="id"]').value;
+        const title = document.getElementsByName("boardTitle")[0].value;
+        const writer = document.querySelector('input[name="boardWriter"]').value;
+        const contents = document.querySelector('input[name="boardContents"]').value;
+        const hits = document.querySelector('input[name="boardHits"]').value;
+        axios({
+            method: "put",
+            url: "/board/" + id,
+            data: {
+                id: id,
+                boardWriter: writer,
+                boardTitle: title,
+                boardContents: contents,
+                boardHits: hits
+            }
+        }).then(res => {
+            console.log("수정 성공");
+            location.href = "/board/" + id;
+        }).catch(err => {
+            alert("수정 실패");
+        })
+    }
+</script>
+</html>

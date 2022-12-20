@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 public class BoardDTO {
     private Long id;
     private String boardTitle;
@@ -57,11 +56,11 @@ public class BoardDTO {
     }
 
     // 페이징 목록에 보여줄 것들
-    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime boardCreatedDate) {
+    public BoardDTO(Long id, String boardTitle, String boardWriter, int boardHits, LocalDateTime boardCreatedTime) {
         this.id = id;
         this.boardTitle = boardTitle;
         this.boardWriter = boardWriter;
         this.boardHits = boardHits;
-        this.boardCreatedTime = boardCreatedDate;
+        this.boardCreatedTime = boardCreatedTime;
     }
 }
